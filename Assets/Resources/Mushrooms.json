@@ -1,0 +1,24 @@
+[
+    {
+        "commonName": "Loyo",
+        "scientificName": "Boletus Loyo",
+        "prefabList": [
+            {"key": "hyphalKnot", "value": "Prefabs/Mushrooms/BoletusLoyo/Loyo-hyphalKnot"},
+            {"key": "primordia", "value": "Prefabs/Mushrooms/BoletusLoyo/Loyo-primordia"},
+            {"key": "young", "value": "Prefabs/Mushrooms/BoletusLoyo/Loyo-young"},
+            {"key": "adult", "value": "Prefabs/Mushrooms/BoletusLoyo/Loyo-adult"},
+            {"key": "dying", "value": "Prefabs/Mushrooms/BoletusLoyo/Loyo-dying"}
+        ],
+        "validTilesTypes": ["Understory"],
+        "substrate": ["Mycorrhiza"],
+        "relation": ["Symbiosis"],
+        "asociatedTrees": ["Nothofagus"],
+        "timeList": [
+            {"key": "hyphalKnot", "value": 5},
+            {"key": "primordia", "value": 3},
+            {"key": "young", "value": 3},
+            {"key": "adult", "value": 6},
+            {"key": "dying", "value": 3}
+        ]
+    }
+]
