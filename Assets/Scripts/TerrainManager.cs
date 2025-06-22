@@ -19,10 +19,10 @@ public class TerrainManager : MonoBehaviour
     public TilesSystem tileSystem;
 
     private string mushroomId = "Boletus Loyo";
+    private MushroomInstance activeMushroom; 
     #endregion
 
     #region Start
-    // Start is called before the first frame update
     void Start()
     {
         tileGO = Instantiate(tilePrefab);
@@ -33,24 +33,30 @@ public class TerrainManager : MonoBehaviour
 
         Tile tile = tileSystem.grid[0, 0];
 
-         if (MushroomFactory.CanPlaceMushroomOnTile(mushroomId, tile.tileType.ToString()))
+        if (MushroomFactory.CanPlaceMushroomOnTile(mushroomId, tile.tileType.ToString()))
         {
-            GameObject mushroom = MushroomFactory.CreateMushroom(mushroomId, tile.worldPosition);
-            tile.go = mushroom;
+            activeMushroom = MushroomManager.CreateMushroom(mushroomId, tile.worldPosition, tile);
+            tile.go = activeMushroom.gameObject;
             tile.isOccupied = true;
         }
         else
         {
-            Debug.Log($"No se puede colocar {mushroomId} () en un tile de tipo {tile.tileType}");
+            Debug.Log($"No se puede colocar {mushroomId} en un tile de tipo {tile.tileType}");
         }
     }
     #endregion
 
     #region Update
-    // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if (activeMushroom != null)
+            {
+                activeMushroom.AdvanceStage(sizePrefab);
+                Debug.Log("Avanzó de etapa.");
+            }
+        }
     }
     #endregion
 }

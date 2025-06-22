@@ -402,10 +402,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1874e90be1fa0e245aeb746d24776a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 10
-  height: 4
+  width: 1
+  height: 1
   sizePrefab: 3
-  tilePrefab: {fileID: 7687017274078872483, guid: 63b7f583c400c6542a16fc0cce4a05d8, type: 3}
+  tilePrefab: {fileID: 96627068692441464, guid: 8770d03a7b4b56a489b91c35f12bdd5c, type: 3}
   tileSystem:
     width: 0
     height: 0

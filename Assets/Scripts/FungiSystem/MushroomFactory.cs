@@ -19,8 +19,9 @@ namespace FungiSystem
                 return;
             }
 
-            MushroomData[] mushroomArray = JsonHelper.FromJson<MushroomData>(jsonText.text);
-            foreach (var data in mushroomArray)
+            //MushroomData[] mushroomArray = JsonHelper.FromJson<MushroomData>(jsonText.text);
+            MushroomDataList list = JsonUtility.FromJson<MushroomDataList>(jsonText.text);
+            foreach (var data in list.mushrooms)
             {
                 data.BuildPrefabMap();
                 mushroomMap[data.scientificName] = data;
@@ -38,7 +39,7 @@ namespace FungiSystem
             return mushroomMap[scientificName].validTilesTypes.Contains(tileType);
         }
 
-        public static GameObject CreateMushroom(string scientificName, Vector3 position)
+        public static GameObject CreateMushroom(string scientificName, Vector3 position, float tileSize)
         {
             if (!isInitialized) InitFactory();
 
@@ -58,6 +59,30 @@ namespace FungiSystem
             }
 
             GameObject instance = GameObject.Instantiate(prefab, position, Quaternion.identity);
+
+            Renderer rend = instance.GetComponentInChildren<Renderer>();
+            if (rend != null)
+            {
+                Vector3 size = rend.bounds.size;
+                float maxDim = Mathf.Max(size.x, size.z);
+
+                // Escala proporcional para que quepa en el tile
+                if (maxDim > 0)
+                {
+                    float scaleFactor = tileSize / maxDim;
+                    instance.transform.localScale = instance.transform.localScale * scaleFactor;
+                }
+
+                // Ajustar posición vertical para que el hongo quede apoyado sobre el tile
+                float height = rend.bounds.size.y;
+                instance.transform.position = new Vector3(position.x, position.y + height / 2f, position.z);
+            }
+            else
+            {
+                // Si no tiene Renderer, posición normal
+                instance.transform.position = position;
+            }
+
             instance.name = data.commonName;
 
             return instance;

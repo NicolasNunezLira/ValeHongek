@@ -13,14 +13,21 @@ namespace TilesManager
             {
                 for (int z = 0; z < height; z++)
                 {
-                    Vector3 worldPos = new Vector3(x * tileSize, 0, z * tileSize);
+                    Vector3 worldPos = new Vector3(x * tileSize, 0.01f, z * tileSize);
                     tileGO = UnityEngine.Object.Instantiate(tilePrefab, worldPos, Quaternion.identity);
                     tileGO.name = $"Tile_{x}_{z}";
-                    tileGO.transform.localScale = new Vector3(tileSize, 1, tileSize);
+                    MeshFilter mf = tileGO.GetComponentInChildren<MeshFilter>();
+                    if (mf != null && mf.sharedMesh != null)
+                    {
+                        Vector3 size = mf.sharedMesh.bounds.size;
+                        float scaleX = tileSize / size.x;
+                        float scaleZ = tileSize / size.z;
+
+                        tileGO.transform.localScale = new Vector3(scaleX, 1, scaleZ);
+                    }
                     tileGO.SetActive(true);
 
-                    // Puedes modificar el color según el tipo de tile si lo deseas
-                    tileGO.GetComponent<Renderer>().material.color = Color.green;
+                    
 
                     // Crear y guardar el Tile
                     Tile tile = new Tile(worldPos, TileType.Understory, tileGO, 1, FungiSystem.SubstrateType.Tierra, "Ninguno");

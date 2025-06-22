@@ -12,6 +12,7 @@ namespace FungiSystem
         public string value;
     }
 
+    [Serializable]
     public class TimeEntry
     {
         public string key;
@@ -45,13 +46,10 @@ namespace FungiSystem
                 prefabs[entry.key] = entry.value;
             }
 
-            if (timeList != null)
+            times = new Dictionary<string, int>();
+            foreach (var entry in timeList)
             {
-                times = new Dictionary<string, int>();
-                foreach (var entry in timeList)
-                {
-                    times[entry.key] = entry.value;
-                }
+                times[entry.key] = entry.value;
             }
         }
     }

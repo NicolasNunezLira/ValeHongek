@@ -1,5 +1,6 @@
-[
-    {
+{
+    "mushrooms": [
+        {
         "commonName": "Loyo",
         "scientificName": "Boletus Loyo",
         "prefabList": [
@@ -20,5 +21,6 @@
             {"key": "adult", "value": 6},
             {"key": "dying", "value": 3}
         ]
-    }
-]
+        }
+    ]
+}
