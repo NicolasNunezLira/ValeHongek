@@ -29,7 +29,7 @@ public class TerrainManager : MonoBehaviour
         tileGO.SetActive(false);
 
         tileSystem = new TilesSystem(width, height, sizePrefab, tilePrefab);
-        tileSystem.GenerateGrid();
+        tileSystem.GenerateHexGrid();
 
         Tile tile = tileSystem.grid[0, 0];
 
