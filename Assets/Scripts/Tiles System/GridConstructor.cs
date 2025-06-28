@@ -49,8 +49,10 @@ namespace TilesManager
             float hexWidth = bounds.size.x * scale.x;
             float hexHeight = bounds.size.z * scale.z;
 
-            float offsetX = hexWidth * 0.75f;
-            float offsetZ = hexHeight;
+            float separationFactorX = 1.0622f; // Aumenta si aún se solapan (ajusta entre 1.02 - 1.1)
+            float separationFactorZ = 1.05f; // Aumenta si aún se solapan (ajusta entre 1.02 - 1.1)
+            float offsetX = hexWidth * 0.75f * separationFactorX;
+            float offsetZ = hexHeight * separationFactorZ;
 
             for (int x = 0; x < width; x++)
             {
@@ -63,6 +65,13 @@ namespace TilesManager
 
                     GameObject tileGO = UnityEngine.Object.Instantiate(tilePrefab, worldPos, Quaternion.identity);
                     tileGO.name = $"Tile_{x}_{z}";
+
+                    // Asignar referencia del borde si es necesario
+                    TileHighlighter highlighter = tileGO.GetComponent<TileHighlighter>();
+                    if (highlighter != null)
+                    {
+                        highlighter.borderObject = tileGO.transform.Find("Borde")?.gameObject;
+                    }
 
                     tileGO.SetActive(true);
 

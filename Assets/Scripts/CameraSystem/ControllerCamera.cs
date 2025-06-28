@@ -33,12 +33,28 @@ public class CameraController : MonoBehaviour
         transform.position += move * moveSpeed * Time.deltaTime;
     }
 
+    /*void HandleRotation()
+    {
+        if (Input.GetMouseButton(1)) // clic derecho
+        {
+            float rotX = Input.GetAxis("Mouse X") * rotationSpeed;
+            transform.Rotate(0f, rotX, 0f, Space.World);
+        }
+    }*/
     void HandleRotation()
     {
         if (Input.GetMouseButton(1)) // clic derecho
         {
             float rotX = Input.GetAxis("Mouse X") * rotationSpeed;
             transform.Rotate(0f, rotX, 0f, Space.World);
+
+            float moveY = Input.GetAxis("Mouse Y") * moveSpeed * 0.5f; // puedes ajustar el factor
+            // Mover en la dirección hacia adelante (pero sin cambiar altura)
+            Vector3 forward = transform.forward;
+            forward.y = 0f;
+            forward.Normalize();
+
+            transform.position -= forward * moveY;
         }
     }
 
