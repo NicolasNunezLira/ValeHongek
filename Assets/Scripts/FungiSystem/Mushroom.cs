@@ -33,6 +33,8 @@ namespace FungiSystem
         public Vector2Int posicionEnGrid;
         private GameObject instanciaActual;
 
+        public GameObject Instancia => instanciaActual;
+
         // Constructor
         public Mushroom(
             GameObject primordio, GameObject joven, GameObject adulto, GameObject muriendo,

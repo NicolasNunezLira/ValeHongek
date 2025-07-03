@@ -14,7 +14,7 @@ namespace FungiSystem
                     var tile = grid[x, y];
                     if (tile.mushroom != null)
                     {
-                        tile.mushroom.UpdateGrowth(deltaTime);
+                        //tile.mushroom.AdvanceStage(tileSize);
                     }
                 }
             }

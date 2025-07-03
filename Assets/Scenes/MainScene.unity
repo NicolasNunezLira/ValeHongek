@@ -147,14 +147,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543634971}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
   m_LocalPosition: {x: -1.0932403, y: 0.21640253, z: -1.2382493}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 963194228}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
 --- !u!114 &543634973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,11 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2daf0ea23023c164fb8d47b048b0940d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 14
   zoomSpeed: 2
   rotationSpeed: 2
   minZoom: 2
-  maxZoom: 80
+  maxZoom: 20
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,11 +484,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1874e90be1fa0e245aeb746d24776a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 5
-  height: 5
-  sizePrefab: 3
+  width: 20
+  height: 15
+  sizePrefab: 3.5
   tilePrefab: {fileID: 8571381426916677455, guid: 1d460fc2d02a6c3479085ed3ef38faa7, type: 3}
   tileSystem:
+    tileParent: {fileID: 0}
     width: 0
     height: 0
     tileSize: 0

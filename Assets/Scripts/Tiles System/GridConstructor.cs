@@ -3,39 +3,10 @@ using UnityEngine;
 
 namespace TilesManager
 {
+    
     public partial class TilesSystem
     {
-        public void GenerateGrid()
-        {
-            grid = new Tile[width, height];
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int z = 0; z < height; z++)
-                {
-                    Vector3 worldPos = new Vector3(x * tileSize, 0.01f, z * tileSize);
-                    tileGO = UnityEngine.Object.Instantiate(tilePrefab, worldPos, Quaternion.identity);
-                    tileGO.name = $"Tile_{x}_{z}";
-                    MeshFilter mf = tileGO.GetComponentInChildren<MeshFilter>();
-                    if (mf != null && mf.sharedMesh != null)
-                    {
-                        Vector3 size = mf.sharedMesh.bounds.size;
-                        float scaleX = tileSize / size.x;
-                        float scaleZ = tileSize / size.z;
-
-                        tileGO.transform.localScale = new Vector3(scaleX, 1, scaleZ);
-                    }
-                    tileGO.SetActive(true);
-
-
-
-                    // Crear y guardar el Tile
-                    Tile tile = new Tile(worldPos, TileType.Understory, tileGO, 1, FungiSystem.SubstrateType.Tierra, "Ninguno");
-                    grid[x, z] = tile;
-                }
-            }
-        }
-        
+        public GameObject tileParent;
         public void GenerateHexGrid()
         {
             grid = new Tile[width, height];
@@ -54,6 +25,8 @@ namespace TilesManager
             float offsetX = hexWidth * 0.75f * separationFactorX;
             float offsetZ = hexHeight * separationFactorZ;
 
+            tileParent = new GameObject("Tiles");
+
             for (int x = 0; x < width; x++)
             {
                 for (int z = 0; z < height; z++)
@@ -63,20 +36,19 @@ namespace TilesManager
 
                     Vector3 worldPos = new Vector3(xPos, 0.01f, zPos);
 
-                    GameObject tileGO = UnityEngine.Object.Instantiate(tilePrefab, worldPos, Quaternion.identity);
+                    GameObject tileGO = UnityEngine.Object.Instantiate(tilePrefab, worldPos, Quaternion.identity, tileParent.transform);
                     tileGO.name = $"Tile_{x}_{z}";
-
-                    // Asignar referencia del borde si es necesario
-                    TileHighlighter highlighter = tileGO.GetComponent<TileHighlighter>();
-                    if (highlighter != null)
-                    {
-                        highlighter.borderObject = tileGO.transform.Find("Borde")?.gameObject;
-                    }
 
                     tileGO.SetActive(true);
 
-                    Tile tile = new Tile(worldPos, TileType.Understory, tileGO, 1, FungiSystem.SubstrateType.Tierra, "Ninguno");
+                    Tile tile = new Tile(worldPos, TileType.Understory, null, 1, FungiSystem.SubstrateType.Tierra, "Ninguno");
                     grid[x, z] = tile;
+                    
+                    TileHighlighter tileHighlighter = tileGO.GetComponentInChildren<TileHighlighter>();
+                    if (tileHighlighter != null)
+                    {
+                        tileHighlighter.tile = tile; // Ajusta la altura del resaltado
+                    }
                 }
             }
         }

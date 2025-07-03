@@ -36,7 +36,7 @@ public class TerrainManager : MonoBehaviour
         if (MushroomFactory.CanPlaceMushroomOnTile(mushroomId, tile.tileType.ToString()))
         {
             activeMushroom = MushroomManager.CreateMushroom(mushroomId, tile.worldPosition, tile);
-            tile.go = activeMushroom.gameObject;
+            tile.mushroom = activeMushroom;
             tile.isOccupied = true;
         }
         else
@@ -49,14 +49,14 @@ public class TerrainManager : MonoBehaviour
     #region Update
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        /*if (Input.GetKeyDown(KeyCode.G))
         {
             if (activeMushroom != null)
             {
                 activeMushroom.AdvanceStage(sizePrefab);
                 Debug.Log("Avanzó de etapa.");
             }
-        }
+        }*/
     }
     #endregion
 }

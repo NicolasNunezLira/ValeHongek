@@ -1,66 +1,86 @@
+using FungiSystem;
+using TilesManager;
 using UnityEngine;
 
 public class TileHighlighter : MonoBehaviour
 {
-    public GameObject borderObject; // referencia al borde negro del prefab
-    public float liftHeight = 0.2f;
+    public Tile tile;
+    public float liftHeight = 0.3f;
     private Vector3 originalPosition;
-    private Vector3 originalBorderPosition;
+    private Vector3? originalMushroomPosition;
     private Renderer borderRenderer;
-    private Color originalColor;
-    private Color highlightColor = Color.white;
+    private Color originalEmission;
+    private readonly Color highlightEmission = Color.white;
 
     void Start()
     {
         originalPosition = transform.position;
 
-        if (borderObject != null)
+        var border = transform.Find("Boundary_Hexagono/default");
+        if (border != null)
         {
-            originalBorderPosition = borderObject.transform.position;
-            borderRenderer = borderObject.GetComponent<Renderer>();
-            originalColor = borderRenderer.material.color;
+            borderRenderer = border.GetComponent<Renderer>();
+            if (borderRenderer != null)
+            {
+                // Instanciar material
+                borderRenderer.material = new Material(borderRenderer.material);
+
+                // Asegurar que el color original no sea vacío
+                if (borderRenderer.material.HasProperty("_EmissionColor"))
+                {
+                    originalEmission = borderRenderer.material.GetColor("_EmissionColor");
+                }
+                else
+                {
+                    originalEmission = Color.black;
+                }
+
+                // Por seguridad, desactiva la emisión inicial si no se usaba
+                borderRenderer.material.DisableKeyword("_EMISSION");
+            }
         }
     }
-
-    /*void OnMouseEnter()
-    {
-        transform.position = originalPosition + Vector3.up * liftHeight;
-
-        if (borderObject != null)
-        {
-            borderObject.transform.position = originalBorderPosition + Vector3.up * (liftHeight + 0.01f);
-            borderRenderer.material.color = highlightColor;
-        }
-    }
-
-    void OnMouseExit()
-    {
-        transform.position = originalPosition;
-
-        if (borderObject != null)
-        {
-            borderObject.transform.position = originalBorderPosition;
-            borderRenderer.material.color = originalColor;
-        }
-    }*/
 
     public void Highlight()
     {
         transform.position = originalPosition + Vector3.up * liftHeight;
-        if (borderObject != null)
+
+        if (borderRenderer != null)
         {
-            borderObject.transform.position = originalBorderPosition + Vector3.up * (liftHeight + 0.01f);
-            borderRenderer.material.color = highlightColor;
+            borderRenderer.material.EnableKeyword("_EMISSION");
+            borderRenderer.material.SetColor("_EmissionColor", highlightEmission);
+        }
+
+        //Debug.Log($"tile?.mushroom = {tile?.mushroom!=null}");
+        if (tile?.mushroom != null && !tile.mushroom.isDead && tile.mushroom.gameObject != null)
+        {
+            var mushGO = tile.mushroom.gameObject;
+
+            if (!originalMushroomPosition.HasValue)
+                originalMushroomPosition = mushGO.transform.position;
+
+            mushGO.transform.position = originalMushroomPosition.Value + Vector3.up * liftHeight;
         }
     }
 
     public void Unhighlight()
     {
         transform.position = originalPosition;
-        if (borderObject != null)
+
+        if (borderRenderer != null)
         {
-            borderObject.transform.position = originalBorderPosition;
-            borderRenderer.material.color = originalColor;
+            borderRenderer.material.SetColor("_EmissionColor", originalEmission);
+
+            // Si el color es oscuro, también podemos desactivar la emisión
+            if (originalEmission.maxColorComponent <= 0.01f)
+            {
+                borderRenderer.material.DisableKeyword("_EMISSION");
+            }
+        }
+
+        if (tile?.mushroom != null && !tile.mushroom.isDead && tile.mushroom.gameObject != null && originalMushroomPosition.HasValue)
+        {
+            tile.mushroom.gameObject.transform.position = originalMushroomPosition.Value;
         }
     }
 }

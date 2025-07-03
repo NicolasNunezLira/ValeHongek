@@ -14,7 +14,7 @@ namespace TilesManager
         public SubstrateType sustrato;
         public string arbol;
 
-        public Mushroom mushroom;
+        public MushroomInstance mushroom;
 
         public Tile(Vector3 position, TileType type, GameObject tileInstance,
             float humedad, SubstrateType sustrato, string arbol)
