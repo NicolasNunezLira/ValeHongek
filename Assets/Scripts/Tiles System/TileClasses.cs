@@ -16,6 +16,22 @@ namespace TilesManager
 
         public MushroomInstance mushroom;
 
+        public float height
+        {
+            get
+            {
+                if (go != null)
+                {
+                    MeshFilter mf = go.GetComponentInChildren<MeshFilter>();
+                    if (mf != null)
+                    {
+                        return mf.sharedMesh.bounds.size.y * go.transform.localScale.y;
+                    }
+                }
+                return 0f; // Valor por defecto si no se puede calcular la altura
+            }
+        }
+
         public Tile(Vector3 position, TileType type, GameObject tileInstance,
             float humedad, SubstrateType sustrato, string arbol)
         {
@@ -42,6 +58,7 @@ namespace TilesManager
         Water,
         Road,
         Swamp,
-        Tree
+        Tree,
+        DeadTree
     }
 }

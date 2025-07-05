@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TileSelector : MonoBehaviour
 {
+    [Header("Tile Collider Layer Mask")]
+    public LayerMask tileLayerMask;
     private TileHighlighter currentTile;
 
     void Update()
@@ -10,7 +12,7 @@ public class TileSelector : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, tileLayerMask))
         {
             TileHighlighter tile = hit.collider.GetComponentInParent<TileHighlighter>();
 

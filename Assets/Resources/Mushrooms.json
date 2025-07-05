@@ -21,6 +21,27 @@
             {"key": "adult", "value": 6},
             {"key": "dying", "value": 3}
         ]
+        },
+        {
+            "commonName": "Hongo azul",
+            "scientificName": "Mycena Cyanocephala",
+            "prefabList": [
+                {"key": "hyphalKnot", "value": "Prefabs/Mushrooms/MycenaCyanocephala/MycenaCyanocephala-hyphalKnot"},
+                {"key": "primordia", "value": "Prefabs/Mushrooms/MycenaCyanocephala/MycenaCyanocephala-primordia"},
+                {"key": "young", "value": "Prefabs/Mushrooms/MycenaCyanocephala/MycenaCyanocephala-young"},
+                {"key": "adult", "value": "Prefabs/Mushrooms/MycenaCyanocephala/MycenaCyanocephala-adult"}
+            ],
+            "validTilesTypes": ["DeadTree"],
+            "substrate": ["Saprotroph"],
+            "relation": ["Saprotroph"],
+            "asociatedTrees": ["None"],
+            "timeList": [
+                {"key": "hyphalKnot", "value": 2},
+                {"key": "primordia", "value": 2},
+                {"key": "young", "value": 2},
+                {"key": "adult", "value": 4},
+                {"key": "dying", "value": 3}
+            ]
         }
     ]
 }

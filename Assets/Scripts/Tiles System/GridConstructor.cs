@@ -41,7 +41,7 @@ namespace TilesManager
 
                     tileGO.SetActive(true);
 
-                    Tile tile = new Tile(worldPos, TileType.Understory, null, 1, FungiSystem.SubstrateType.Tierra, "Ninguno");
+                    Tile tile = new Tile(worldPos, TileType.Understory, tileGO, 1, FungiSystem.SubstrateType.Tierra, "Ninguno");
                     grid[x, z] = tile;
                     
                     TileHighlighter tileHighlighter = tileGO.GetComponentInChildren<TileHighlighter>();

@@ -14,10 +14,10 @@ namespace FungiSystem
 
         public MushroomInstance(string name, string stage, GameObject obj, Tile tile)
         {
-            this.scientificName = name;
+            scientificName = name;
             this.stage = stage;
-            this.gameObject = obj;
-            this.currentTile = tile;
+            gameObject = obj;
+            currentTile = tile;
         }
 
         public void AdvanceStage(float tileSize)
@@ -36,7 +36,7 @@ namespace FungiSystem
                 if (currentTile != null)
                 {
                     currentTile.isOccupied = false;
-                    currentTile.go = null;
+                    currentTile.mushroom = null;
                 }
 
                 return;
@@ -44,7 +44,9 @@ namespace FungiSystem
 
             stage = nextStage;
 
-            Vector3 originalPos = gameObject.transform.position;
+            Vector3 tileBasePosition = currentTile.go.transform.position + Vector3.up * 0.1f;
+            //Vector3 originalPos = gameObject.transform.localPosition;
+
             GameObject.Destroy(gameObject);
 
             GameObject newPrefab = Resources.Load<GameObject>(data.prefabs[stage]);
@@ -54,12 +56,13 @@ namespace FungiSystem
                 return;
             }
 
-            gameObject = GameObject.Instantiate(newPrefab, originalPos, Quaternion.identity);
+            gameObject = GameObject.Instantiate(newPrefab, tileBasePosition, Quaternion.identity);
             gameObject.name = data.commonName + "_" + stage;
 
             Renderer rend = gameObject.GetComponentInChildren<Renderer>();
             if (rend != null)
             {
+                /*
                 Vector3 size = rend.bounds.size;
                 float maxDim = Mathf.Max(size.x, size.z);
 
@@ -81,19 +84,15 @@ namespace FungiSystem
                         relativeScale = scaleFactors[stage];
 
                     gameObject.transform.localScale = gameObject.transform.localScale * baseScale * relativeScale;
-                }
+                    
+                }*/
 
                 float yOffset = rend.bounds.min.y;
-                Vector3 adjustedPos = new Vector3(
-                    originalPos.x,
-                    originalPos.y - yOffset,
-                    originalPos.z
-                );
-                gameObject.transform.position = adjustedPos;
+                gameObject.transform.position -= new UnityEngine.Vector3(0, yOffset, 0);
             }
             else
             {
-                gameObject.transform.position = originalPos;
+                gameObject.transform.position = tileBasePosition;
             }
         }
 

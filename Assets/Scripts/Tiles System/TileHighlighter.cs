@@ -6,7 +6,9 @@ public class TileHighlighter : MonoBehaviour
 {
     public Tile tile;
     public float liftHeight = 0.3f;
-    private Vector3 originalPosition;
+
+    private Transform visualTransform, borderTransform; // el hijo "default" visual
+    private Vector3 originalVisualPosition, originalBorderPosition;
     private Vector3? originalMushroomPosition;
     private Renderer borderRenderer;
     private Color originalEmission;
@@ -14,28 +16,29 @@ public class TileHighlighter : MonoBehaviour
 
     void Start()
     {
-        originalPosition = transform.position;
-
-        var border = transform.Find("Boundary_Hexagono/default");
-        if (border != null)
+        // Encuentra el hijo visual
+        visualTransform = transform.Find("default");
+        if (visualTransform != null)
         {
-            borderRenderer = border.GetComponent<Renderer>();
+            originalVisualPosition = visualTransform.localPosition;
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el hijo 'default' para levantar visualmente el tile.");
+        }
+
+        // Encuentra el borde
+        borderTransform = transform.Find("Boundary_Hexagono/default");
+        if (borderTransform != null)
+        {
+            originalBorderPosition = borderTransform.localPosition;
+            borderRenderer = borderTransform.GetComponent<Renderer>();
             if (borderRenderer != null)
             {
-                // Instanciar material
                 borderRenderer.material = new Material(borderRenderer.material);
-
-                // Asegurar que el color original no sea vacío
-                if (borderRenderer.material.HasProperty("_EmissionColor"))
-                {
-                    originalEmission = borderRenderer.material.GetColor("_EmissionColor");
-                }
-                else
-                {
-                    originalEmission = Color.black;
-                }
-
-                // Por seguridad, desactiva la emisión inicial si no se usaba
+                originalEmission = borderRenderer.material.HasProperty("_EmissionColor")
+                    ? borderRenderer.material.GetColor("_EmissionColor")
+                    : Color.black;
                 borderRenderer.material.DisableKeyword("_EMISSION");
             }
         }
@@ -43,15 +46,20 @@ public class TileHighlighter : MonoBehaviour
 
     public void Highlight()
     {
-        transform.position = originalPosition + Vector3.up * liftHeight;
+        // Solo levanta el visual
+        if (visualTransform != null)
+        {
+            visualTransform.localPosition = originalVisualPosition + Vector3.up * liftHeight;
+        }
 
         if (borderRenderer != null)
         {
+            borderTransform.localPosition = originalBorderPosition + Vector3.up * liftHeight;
             borderRenderer.material.EnableKeyword("_EMISSION");
             borderRenderer.material.SetColor("_EmissionColor", highlightEmission);
         }
 
-        //Debug.Log($"tile?.mushroom = {tile?.mushroom!=null}");
+        // Levanta el hongo si existe
         if (tile?.mushroom != null && !tile.mushroom.isDead && tile.mushroom.gameObject != null)
         {
             var mushGO = tile.mushroom.gameObject;
@@ -65,13 +73,16 @@ public class TileHighlighter : MonoBehaviour
 
     public void Unhighlight()
     {
-        transform.position = originalPosition;
+        if (visualTransform != null)
+        {
+            visualTransform.localPosition = originalVisualPosition;
+        }
 
         if (borderRenderer != null)
         {
+            borderTransform.localPosition = originalBorderPosition;
             borderRenderer.material.SetColor("_EmissionColor", originalEmission);
 
-            // Si el color es oscuro, también podemos desactivar la emisión
             if (originalEmission.maxColorComponent <= 0.01f)
             {
                 borderRenderer.material.DisableKeyword("_EMISSION");

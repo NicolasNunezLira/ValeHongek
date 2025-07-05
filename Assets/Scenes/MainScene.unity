@@ -396,6 +396,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055d567f5258ea14d868bacb3509fe78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +498,7 @@ MonoBehaviour:
     tileSize: 0
     tilePrefab: {fileID: 0}
     tileGO: {fileID: 0}
+  tileHeight: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
