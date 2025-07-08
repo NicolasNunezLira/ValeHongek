@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 1632635589}
   - component: {fileID: 1632635590}
   m_Layer: 0
-  m_Name: Terrain
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,8 +489,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 20
   height: 15
-  sizePrefab: 3.5
+  sizePrefab: 1
   tilePrefab: {fileID: 8571381426916677455, guid: 1d460fc2d02a6c3479085ed3ef38faa7, type: 3}
+  treePrefab: {fileID: 1328845406515793540, guid: 8c01fe0a1dddfdb44993c4ece4280664, type: 3}
   tileSystem:
     tileParent: {fileID: 0}
     width: 0
@@ -498,6 +499,7 @@ MonoBehaviour:
     tileSize: 0
     tilePrefab: {fileID: 0}
     tileGO: {fileID: 0}
+    treePrefab: {fileID: 0}
   tileHeight: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

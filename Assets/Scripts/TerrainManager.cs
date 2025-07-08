@@ -10,12 +10,12 @@ public class TerrainManager : MonoBehaviour
     [SerializeField] public int height;
     [SerializeField] public float sizePrefab;
 
-    [Header("Tile's prefab")]
+    [Header("Prefabs")]
     [SerializeField] public GameObject tilePrefab;
+    [SerializeField] public GameObject treePrefab;
     #endregion
 
     #region Private variables
-    private GameObject tileGO;
     public TilesSystem tileSystem;
 
     private string mushroomId = "Boletus Loyo", mushroomId2 = "Mycena Cyanocephala";
@@ -27,11 +27,7 @@ public class TerrainManager : MonoBehaviour
     #region Start
     void Start()
     {
-        tileGO = Instantiate(tilePrefab);
-        tileHeight = tileGO.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size.y * tileGO.transform.localScale.y;
-        tileGO.SetActive(false);
-
-        tileSystem = new TilesSystem(width, height, sizePrefab, tilePrefab);
+        tileSystem = new TilesSystem(width, height, sizePrefab, tilePrefab, treePrefab);
         tileSystem.GenerateHexGrid();
 
         Tile tile = tileSystem.grid[0, 0];

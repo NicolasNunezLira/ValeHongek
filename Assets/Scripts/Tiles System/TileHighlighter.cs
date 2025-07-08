@@ -46,52 +46,102 @@ public class TileHighlighter : MonoBehaviour
 
     public void Highlight()
     {
-        // Solo levanta el visual
-        if (visualTransform != null)
+        if (tile?.treeGroup != null)
         {
-            visualTransform.localPosition = originalVisualPosition + Vector3.up * liftHeight;
+            foreach (var groupedTile in tile.treeGroup.tiles)
+            {
+                HighlightTile(groupedTile);
+            }
+
+            if (tile.treeGroup.treeInstance != null)
+            {
+                tile.treeGroup.treeInstance.transform.position += Vector3.up * liftHeight;
+            }
         }
-
-        if (borderRenderer != null)
+        else
         {
-            borderTransform.localPosition = originalBorderPosition + Vector3.up * liftHeight;
-            borderRenderer.material.EnableKeyword("_EMISSION");
-            borderRenderer.material.SetColor("_EmissionColor", highlightEmission);
-        }
-
-        // Levanta el hongo si existe
-        if (tile?.mushroom != null && !tile.mushroom.isDead && tile.mushroom.gameObject != null)
-        {
-            var mushGO = tile.mushroom.gameObject;
-
-            if (!originalMushroomPosition.HasValue)
-                originalMushroomPosition = mushGO.transform.position;
-
-            mushGO.transform.position = originalMushroomPosition.Value + Vector3.up * liftHeight;
+            HighlightTile(tile);
         }
     }
 
     public void Unhighlight()
     {
-        if (visualTransform != null)
+        if (tile?.treeGroup != null)
         {
-            visualTransform.localPosition = originalVisualPosition;
-        }
-
-        if (borderRenderer != null)
-        {
-            borderTransform.localPosition = originalBorderPosition;
-            borderRenderer.material.SetColor("_EmissionColor", originalEmission);
-
-            if (originalEmission.maxColorComponent <= 0.01f)
+            foreach (var groupedTile in tile.treeGroup.tiles)
             {
-                borderRenderer.material.DisableKeyword("_EMISSION");
+                UnhighlightTile(groupedTile);
+            }
+
+            if (tile.treeGroup.treeInstance != null)
+            {
+                Vector3 pos = tile.treeGroup.treeInstance.transform.position;
+                tile.treeGroup.treeInstance.transform.position = new Vector3(pos.x, 0.01f, pos.z);
+            }
+        }
+        else
+        {
+            UnhighlightTile(tile);
+        }
+    }
+
+
+    private void HighlightTile(Tile t)
+    {
+        if (t.go == null) return;
+
+        Transform tRoot = t.go.transform;
+        Transform vis = tRoot.Find("default");
+        Transform border = tRoot.Find("Boundary_Hexagono/default");
+
+        if (vis != null)
+            vis.localPosition += Vector3.up * liftHeight;
+
+        if (border != null)
+        {
+            Renderer r = border.GetComponent<Renderer>();
+            if (r != null)
+            {
+                r.material.EnableKeyword("_EMISSION");
+                r.material.SetColor("_EmissionColor", highlightEmission);
+                border.localPosition += Vector3.up * liftHeight;
             }
         }
 
-        if (tile?.mushroom != null && !tile.mushroom.isDead && tile.mushroom.gameObject != null && originalMushroomPosition.HasValue)
+        if (t.mushroom != null && !t.mushroom.isDead && t.mushroom.gameObject != null)
         {
-            tile.mushroom.gameObject.transform.position = originalMushroomPosition.Value;
+            t.mushroom.gameObject.transform.position += Vector3.up * liftHeight;
+        }
+    }
+
+    private void UnhighlightTile(Tile t)
+    {
+        if (t.go == null) return;
+
+        Transform tRoot = t.go.transform;
+        Transform vis = tRoot.Find("default");
+        Transform border = tRoot.Find("Boundary_Hexagono/default");
+
+        if (vis != null)
+            vis.localPosition -= Vector3.up * liftHeight;
+
+        if (border != null)
+        {
+            Renderer r = border.GetComponent<Renderer>();
+            if (r != null)
+            {
+                r.material.SetColor("_EmissionColor", originalEmission);
+                if (originalEmission.maxColorComponent <= 0.01f)
+                {
+                    r.material.DisableKeyword("_EMISSION");
+                }
+                border.localPosition -= Vector3.up * liftHeight;
+            }
+        }
+
+        if (t.mushroom != null && !t.mushroom.isDead && t.mushroom.gameObject != null)
+        {
+            t.mushroom.gameObject.transform.position -= Vector3.up * liftHeight;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FungiSystem;
 using UnityEngine;
 
@@ -13,8 +14,8 @@ namespace TilesManager
         public float humedad;
         public SubstrateType sustrato;
         public string arbol;
-
         public MushroomInstance mushroom;
+        public TreeGroup treeGroup;
 
         public float height
         {
@@ -44,10 +45,25 @@ namespace TilesManager
             this.arbol = arbol;
         }
 
-        // Puedes agregar más lógica aquí, como:
+
         public bool IsBuildable()
         {
             return !isOccupied && tileType != TileType.Water && tileType != TileType.Road;
+        }
+    }
+
+    public class TreeGroup
+    {
+        public List<Tile> tiles;
+        public GameObject treeInstance;
+
+        public TreeGroup(Tile t1, Tile t2, Tile t3)
+        {
+            tiles = new List<Tile> { t1, t2, t3 };
+            foreach (Tile tile in tiles)
+            {
+                tile.treeGroup = this;
+            }
         }
     }
 
