@@ -5,7 +5,7 @@ using UnityEngine;
 public class TileHighlighter : MonoBehaviour
 {
     public Tile tile;
-    public float liftHeight = 0.3f;
+    public float liftHeight = 0.6f;
 
     private Transform visualTransform, borderTransform; // el hijo "default" visual
     private Vector3 originalVisualPosition, originalBorderPosition;
@@ -58,6 +58,18 @@ public class TileHighlighter : MonoBehaviour
                 tile.treeGroup.treeInstance.transform.position += Vector3.up * liftHeight;
             }
         }
+        else if (tile?.bigTreeGroup != null)
+        {
+            foreach (var groupedTile in tile.bigTreeGroup.tiles)
+            {
+                HighlightTile(groupedTile);
+            }
+
+            if (tile.bigTreeGroup.treeInstance != null)
+            {
+                tile.bigTreeGroup.treeInstance.transform.position += Vector3.up * liftHeight;
+            }
+        }
         else
         {
             HighlightTile(tile);
@@ -77,6 +89,19 @@ public class TileHighlighter : MonoBehaviour
             {
                 Vector3 pos = tile.treeGroup.treeInstance.transform.position;
                 tile.treeGroup.treeInstance.transform.position = new Vector3(pos.x, 0.01f, pos.z);
+            }
+        }
+        else if (tile?.bigTreeGroup != null)
+        {
+            foreach (var groupedTile in tile.bigTreeGroup.tiles)
+            {
+                UnhighlightTile(groupedTile);
+            }
+
+            if (tile.bigTreeGroup.treeInstance != null)
+            {
+                Vector3 pos = tile.bigTreeGroup.treeInstance.transform.position;
+                tile.bigTreeGroup.treeInstance.transform.position = new Vector3(pos.x, 0.01f, pos.z);
             }
         }
         else

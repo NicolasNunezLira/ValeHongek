@@ -10,7 +10,7 @@ namespace TilesManager
         public int height;
         public float tileSize;
         public Tile[,] grid;
-        public GameObject tilePrefab, tileGO, treePrefab;
+        public GameObject tilePrefab, tileGO, treePrefab, bigTreePrefab;
         #endregion
 
         #region Init Tiles System
@@ -19,7 +19,8 @@ namespace TilesManager
             int height,
             float tileSize,
             GameObject tilePrefab,
-            GameObject treePrefab
+            GameObject treePrefab,
+            GameObject bigTreePrefab
         )
         {
             this.width = width;
@@ -27,6 +28,8 @@ namespace TilesManager
             this.tileSize = tileSize;
             this.tilePrefab = tilePrefab;
             this.treePrefab = treePrefab;
+            this.bigTreePrefab = bigTreePrefab;
+
         }
         #endregion        
     }

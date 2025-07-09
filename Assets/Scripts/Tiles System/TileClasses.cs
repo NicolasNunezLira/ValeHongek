@@ -16,6 +16,7 @@ namespace TilesManager
         public string arbol;
         public MushroomInstance mushroom;
         public TreeGroup treeGroup;
+        public BigTreeGroup bigTreeGroup;
 
         public float height
         {
@@ -64,6 +65,23 @@ namespace TilesManager
             {
                 tile.treeGroup = this;
             }
+        }
+    }
+
+    public class BigTreeGroup
+    {
+        public List<Tile> tiles;
+        public GameObject treeInstance;
+
+        public BigTreeGroup(
+            Tile t1, Tile t2, Tile t3, Tile t4,
+            Tile t5, Tile t6, Tile t7)
+        {
+            tiles = new List<Tile> { t1, t2, t3, t4, t5, t6, t7 };
+            foreach (Tile tile in tiles)
+            {
+                tile.bigTreeGroup = this;
+            }        
         }
     }
 

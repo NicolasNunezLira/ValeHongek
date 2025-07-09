@@ -487,19 +487,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1874e90be1fa0e245aeb746d24776a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 20
+  width: 15
   height: 15
   sizePrefab: 1
   tilePrefab: {fileID: 8571381426916677455, guid: 1d460fc2d02a6c3479085ed3ef38faa7, type: 3}
   treePrefab: {fileID: 1328845406515793540, guid: 8c01fe0a1dddfdb44993c4ece4280664, type: 3}
+  bigTreePrefab: {fileID: 4893430718771460577, guid: 71a8f5d345db44f4a95ac75dfa2736f7, type: 3}
   tileSystem:
-    tileParent: {fileID: 0}
     width: 0
     height: 0
     tileSize: 0
     tilePrefab: {fileID: 0}
     tileGO: {fileID: 0}
     treePrefab: {fileID: 0}
+    bigTreePrefab: {fileID: 0}
   tileHeight: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -39,8 +39,7 @@
                 {"key": "hyphalKnot", "value": 2},
                 {"key": "primordia", "value": 2},
                 {"key": "young", "value": 2},
-                {"key": "adult", "value": 4},
-                {"key": "dying", "value": 3}
+                {"key": "adult", "value": 4}
             ]
         }
     ]
